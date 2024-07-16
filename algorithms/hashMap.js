@@ -40,7 +40,7 @@ function createHashMap(loadFactorThreshold = 0.75) {
 			buckets[bucket].key = hashCode;
 			buckets[bucket].value = value;
 		} else {
-			buckets[bucket] = hashNode(hashCode, value);
+			buckets[bucket] = createHashNode(hashCode, value);
 		}
 		size = buckets.filter((index) => index !== null).length;
 		const loadFactor = size / buckets.length;
@@ -138,7 +138,7 @@ function createHashMap(loadFactorThreshold = 0.75) {
 	};
 }
 
-function hashNode(key, value) {
+function createHashNode(key, value) {
 	return {
 		key,
 		value,

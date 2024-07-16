@@ -1,5 +1,3 @@
-import { createHashMap } from "./hashMap.js";
-import { createLinkedList } from "./linkedList.js";
-
-const hashMap = createHashMap();
-const linkedList = createLinkedList();
+import { createLinkedList } from "./algorithms/linkedList";
+import { createHashMap } from "./algorithms/hashMap";
+//import { createTree } from "./algorithms/binaryTree";

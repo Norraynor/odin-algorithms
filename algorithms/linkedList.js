@@ -7,13 +7,13 @@ function createLinkedList() {
 		while (node.next) {
 			node = node.next;
 		}
-		node.next = LinkedNode(value, null);
+		node.next = createLinkedNode(value, null);
 	}
 	function prepend(value) {
 		//add element to start of list
 		let node = list.head;
 		let saveNext = node.next;
-		node.next = LinkedNode(value, saveNext);
+		node.next = createLinkedNode(value, saveNext);
 	}
 	function size() {
 		//return elements count
@@ -99,7 +99,7 @@ function createLinkedList() {
 			i++;
 		}
 		let saveNext = node.next;
-		node.next = LinkedNode(value, saveNext);
+		node.next = createLinkedNode(value, saveNext);
 	}
 	function removeAt(index) {
 		//remove element at given index
@@ -133,7 +133,7 @@ function createLinkedList() {
 	};
 }
 
-function LinkedNode(value = null, nextNode = null) {
+function createLinkedNode(value = null, nextNode = null) {
 	return {
 		value,
 		next: nextNode,
