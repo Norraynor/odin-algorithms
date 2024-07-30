@@ -16,6 +16,7 @@ function createTree(arr) {
 
 	function buildTree(array) {
 		if (array.length <= 1) {
+			if (array[0] == undefined) return null;
 			return createNode(array[0]);
 		}
 		let middleIndex = Math.ceil(array.length / 2);
@@ -83,9 +84,6 @@ function createTree(arr) {
 			node.right = deleteItem(value, node.right);
 			return node;
 		}
-
-		// console.error("item to delete not found");
-		return false;
 	}
 	function largerSmallestNode(node) {
 		while (node.left) {
@@ -93,6 +91,75 @@ function createTree(arr) {
 		}
 		return node;
 	}
+
+	function find(value) {
+		let node = root;
+		while (node) {
+			if (value == node.value) {
+				return node;
+			} else if (value < node.value) {
+				node = node.left;
+			} else {
+				node = node.right;
+			}
+		}
+		return null;
+	}
+
+	function levelOrder(callback) {
+		if (!callback) {
+			throw new Error("Callback function is required");
+		}
+		let node = root;
+		let queue = [node];
+		let callbackQueue = [node];
+		while (queue.length > 0) {
+			node = queue[0];
+			if (node.left) {
+				callbackQueue.push(node.left);
+				queue.push(node.left);
+			}
+			if (node.right) {
+				callbackQueue.push(node.right);
+				queue.push(node.right);
+			}
+			queue.shift();
+		}
+		callbackQueue.forEach((element) => {
+			callback(element);
+		});
+	}
+	function inOrder(callback, node = root) {
+		if (!callback) {
+			throw new Error("Callback function is required");
+		}
+		if (node) {
+			inOrder(callback, node.left);
+			callback(node);
+			inOrder(callback, node.right);
+		}
+	}
+	function preOrder(callback, node = root) {
+		if (!callback) {
+			throw new Error("Callback function is required");
+		}
+		if (node) {
+			callback(node);
+			preOrder(callback, node.left);
+			preOrder(callback, node.right);
+		}
+	}
+	function postOrder(callback, node = root) {
+		if (!callback) {
+			throw new Error("Callback function is required");
+		}
+		if (node) {
+			postOrder(callback, node.left);
+			postOrder(callback, node.right);
+			callback(node);
+		}
+	}
+
 	function printTree() {
 		prettyPrint(root);
 	}
@@ -105,6 +172,11 @@ function createTree(arr) {
 		insert,
 		printTree,
 		deleteItem,
+		find,
+		levelOrder,
+		preOrder,
+		postOrder,
+		inOrder,
 	};
 }
 
@@ -126,5 +198,20 @@ let testTree = createTree(testArr);
 testTree.insert(15);
 testTree.insert(2);
 prettyPrint(testTree.root);
-testTree.deleteItem(4);
+testTree.deleteItem(16);
 prettyPrint(testTree.root);
+console.log(testTree.find(7));
+console.log(testTree.find(89));
+// testTree.levelOrder((nodeplus) => {
+// 	console.log(nodeplus);
+// });
+// testTree.preOrder((nodeplus) => {
+// 	console.log(nodeplus);
+// });
+// testTree.postOrder((nodeplus) => {
+// 	console.log(nodeplus);
+// });
+testTree.inOrder((nodeplus) => {
+	console.log(nodeplus);
+});
+// prettyPrint(testTree.root);
