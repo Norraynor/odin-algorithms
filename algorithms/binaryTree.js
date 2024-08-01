@@ -159,7 +159,59 @@ function createTree(arr) {
 			callback(node);
 		}
 	}
+	function height(node) {
+		if (node == null) {
+			return -1;
+		}
+		let countNode = createNode(
+			node.value,
+			1 + height(node.left),
+			1 + height(node.right)
+		);
+		console.log(countNode);
+		if (countNode.left >= countNode.right) {
+			return countNode.left;
+		} else {
+			return countNode.right;
+		}
+	}
 
+	function depth(value) {
+		if (value == null) {
+			return -1;
+		}
+		let count = 0;
+		let currentNode = root;
+		while (currentNode) {
+			if (currentNode.value == value) {
+				return count;
+			} else if (currentNode.value > value) {
+				count++;
+				currentNode = currentNode.left;
+			} else if (currentNode.value < value) {
+				count++;
+				currentNode = currentNode.right;
+			}
+		}
+		return -1;
+	}
+	function isBalanced() {
+		if (
+			height(root.left) - height(root.right) > 1 &&
+			height(root.left) - height(root.right) < -1
+		) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	function rebalance() {
+		let inOrderArray = [];
+		inOrder((node) => {
+			inOrderArray.push(node.value);
+		});
+		root = buildTree(inOrderArray);
+	}
 	function printTree() {
 		prettyPrint(root);
 	}
@@ -177,6 +229,10 @@ function createTree(arr) {
 		preOrder,
 		postOrder,
 		inOrder,
+		height,
+		depth,
+		isBalanced,
+		rebalance,
 	};
 }
 
@@ -193,15 +249,15 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 	}
 };
 
-let testArr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-let testTree = createTree(testArr);
-testTree.insert(15);
-testTree.insert(2);
-prettyPrint(testTree.root);
-testTree.deleteItem(16);
-prettyPrint(testTree.root);
-console.log(testTree.find(7));
-console.log(testTree.find(89));
+// let testArr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+// let testTree = createTree(testArr);
+// testTree.insert(15);
+// testTree.insert(2);
+// prettyPrint(testTree.root);
+// testTree.deleteItem(16);
+// prettyPrint(testTree.root);
+// console.log(testTree.find(7));
+// console.log(testTree.find(89));
 // testTree.levelOrder((nodeplus) => {
 // 	console.log(nodeplus);
 // });
@@ -211,7 +267,10 @@ console.log(testTree.find(89));
 // testTree.postOrder((nodeplus) => {
 // 	console.log(nodeplus);
 // });
-testTree.inOrder((nodeplus) => {
-	console.log(nodeplus);
-});
-// prettyPrint(testTree.root);
+// testTree.inOrder((nodeplus) => {
+// 	console.log(nodeplus);
+// });
+// // prettyPrint(testTree.root);
+// console.log(testTree.depth(5));
+// console.log(testTree.height(testTree.find(5)));
+// console.log(testTree.isBalanced());
