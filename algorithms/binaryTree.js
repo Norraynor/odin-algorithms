@@ -14,6 +14,9 @@ function createTree(arr) {
 
 	let root = buildTree(sortedArray);
 
+	function getRoot() {
+		return root;
+	}
 	function buildTree(array) {
 		if (array.length <= 1) {
 			if (array[0] == undefined) return null;
@@ -168,7 +171,6 @@ function createTree(arr) {
 			1 + height(node.left),
 			1 + height(node.right)
 		);
-		console.log(countNode);
 		if (countNode.left >= countNode.right) {
 			return countNode.left;
 		} else {
@@ -197,7 +199,7 @@ function createTree(arr) {
 	}
 	function isBalanced() {
 		if (
-			height(root.left) - height(root.right) > 1 &&
+			height(root.left) - height(root.right) > 1 ||
 			height(root.left) - height(root.right) < -1
 		) {
 			return false;
@@ -210,7 +212,9 @@ function createTree(arr) {
 		inOrder((node) => {
 			inOrderArray.push(node.value);
 		});
+		console.log(inOrderArray);
 		root = buildTree(inOrderArray);
+		console.log(root);
 	}
 	function printTree() {
 		prettyPrint(root);
@@ -220,7 +224,7 @@ function createTree(arr) {
 	//printTree();
 
 	return {
-		root,
+		getRoot,
 		insert,
 		printTree,
 		deleteItem,
@@ -249,6 +253,13 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 	}
 };
 
+const randomNumbersArray = (min, max, len = 1) => {
+	return Array.from(
+		{ length: len },
+		() => Math.floor(Math.random() * (max - min + 1)) + min
+	);
+};
+
 // let testArr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 // let testTree = createTree(testArr);
 // testTree.insert(15);
@@ -274,3 +285,59 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 // console.log(testTree.depth(5));
 // console.log(testTree.height(testTree.find(5)));
 // console.log(testTree.isBalanced());
+
+let randomTree = createTree(randomNumbersArray(1, 100, 30));
+console.log(randomTree.isBalanced());
+prettyPrint(randomTree.getRoot());
+// randomTree.levelOrder((nodeplus) => {
+// 	console.log(nodeplus);
+// });
+// console.log("--");
+// randomTree.preOrder((nodeplus) => {
+// 	console.log(nodeplus);
+// });
+// console.log("--");
+
+// randomTree.postOrder((nodeplus) => {
+// 	console.log(nodeplus);
+// });
+// console.log("--");
+
+// randomTree.inOrder((nodeplus) => {
+// 	console.log(nodeplus);
+// });
+
+//unbalance here
+randomTree.insert(101);
+randomTree.insert(102);
+randomTree.insert(103);
+randomTree.insert(104);
+randomTree.insert(105);
+
+console.log("-----");
+prettyPrint(randomTree.getRoot());
+
+console.log(randomTree.isBalanced());
+console.log("-----");
+randomTree.rebalance();
+console.log(randomTree.isBalanced());
+
+prettyPrint(randomTree.getRoot());
+
+// randomTree.levelOrder((nodeplus) => {
+// 	console.log(nodeplus);
+// });
+// console.log("--");
+// randomTree.preOrder((nodeplus) => {
+// 	console.log(nodeplus);
+// });
+// console.log("--");
+
+// randomTree.postOrder((nodeplus) => {
+// 	console.log(nodeplus);
+// });
+// console.log("--");
+
+// randomTree.inOrder((nodeplus) => {
+// 	console.log(nodeplus);
+// });
